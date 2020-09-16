@@ -11,8 +11,7 @@ Basic concept:
 4. Push code to deploy
 
 
-1. Set up your server for deployment
-------------------------------------
+## 1. Set up your server for deployment
 
 The server where deployment will be made needs to be set up. The following bash script will create a `deploy` user, generate an RSA key and authorise it for use with incoming SSH connections. The deploy user will be granted the privilege of running the single `post-deploy.bash` script as root.
 
@@ -30,8 +29,7 @@ echo "#This file should be called after rsync has completed to move the files to
 chmod +x /home/deploy/post-deploy.bash
 ```
 
-2. Configure how deployments execute
-------------------------------------
+## 2. Configure how deployments execute
 
 The `post-deploy.bash` script should be used to configure where the newly-deployed files will be placed on the server. This script is the only command that can be executed as root by the `deploy` user, and it is read-only to non-root users.
 
@@ -46,8 +44,6 @@ SOURCE_DIR=/home/deploy/$PROJECT_NAME
 DEPLOY_DIR=/var/www/$PROJECT_NAME
 ```
 
-3. Add the action to your project's workflow
---------------------------------------------
+## 3. Add the action to your project's workflow
 
-4. Push code to deploy
-----------------------
+## 4. Push code to deploy
