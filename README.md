@@ -16,6 +16,7 @@ Basic concept:
 The server where deployment will be made needs to be set up. The following bash script will create a `deploy` user, generate an RSA key and authorise it for use with incoming SSH connections. The deploy user will be granted the privilege of running the single `post-deploy.bash` script as root.
 
 ```bash
+#!/bin/bash
 useradd deploy
 usermod --shell /bin/bash deploy
 mkdir -p /home/deploy/.ssh
@@ -42,6 +43,15 @@ PROJECT_NAME=$1
 BRANCH_NAME=$2
 SOURCE_DIR=/home/deploy/$PROJECT_NAME
 DEPLOY_DIR=/var/www/$PROJECT_NAME
+
+# Remove any old backup directory
+rm -rf "$DEPLOY_DIR.old"
+# Backup the current deploy directory
+mv "$DEPLOY_DIR" "$DEPLOY_DIR.old"
+# Move the new deploy directory in place
+mv "$SOURCE_DIR" "$DEPLOY_DIR"
+# Own directory by web server's user
+chown -R www-data:www-data "$DEPLOY_DIR"
 ```
 
 ## 3. Add the action to your project's workflow
